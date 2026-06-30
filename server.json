@@ -1,0 +1,22 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.matematicsolutions/legalize-mcp",
+  "description": "MCP server over the legalize-dev law-as-git corpus - national legislation for 37 jurisdictions as version-controlled Markdown with ELI-style citations.",
+  "version": "0.1.0",
+  "repository": {
+    "url": "https://github.com/matematicsolutions/legalize-mcp",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "pypi",
+      "registryBaseUrl": "https://pypi.org",
+      "identifier": "legalize-mcp",
+      "version": "0.1.0",
+      "runtimeHint": "uvx",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}

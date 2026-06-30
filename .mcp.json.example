@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "legalize": {
+      "command": "uvx",
+      "args": ["legalize-mcp"],
+      "env": {
+        "GITHUB_TOKEN": "ghp_xxx_optional_only_for_search"
+      }
+    }
+  }
+}

@@ -1,0 +1,62 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "legalize-mcp"
+version = "0.1.0"
+description = "MCP server over the legalize-dev law-as-git corpus - national legislation for 37 jurisdictions as version-controlled Markdown with ELI-style citations and verifiable provenance."
+readme = "README.md"
+license = { text = "Apache-2.0" }
+requires-python = ">=3.11"
+authors = [
+    { name = "Matematic Solutions", email = "kontakt@matematic.co" },
+    { name = "Wieslaw Mazur", email = "mazur.wieslaw2022@gmail.com" },
+]
+keywords = ["mcp", "legaltech", "legislation", "eli", "law", "eu", "legalize", "law-as-git"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Legal Industry",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business",
+]
+dependencies = [
+    "fastmcp>=0.2.0",
+    "httpx>=0.27",
+    "pydantic>=2.6",
+    "pyyaml>=6.0",
+    "anyio>=4.3",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+    "mypy>=1.10",
+    "ruff>=0.5",
+]
+
+[project.urls]
+Homepage = "https://matematic.co"
+Source = "https://github.com/matematicsolutions/legalize-mcp"
+"Upstream corpus" = "https://github.com/legalize-dev"
+
+[project.scripts]
+legalize-mcp = "legalize_mcp.server:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/legalize_mcp"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
