@@ -1,5 +1,7 @@
 # legalize-mcp
 
+<!-- mcp-name: io.github.matematicsolutions/legalize-mcp -->
+
 **One MCP server, 32 jurisdictions (21 EU).** A read-only [Model Context Protocol](https://modelcontextprotocol.io)
 server over the [legalize-dev](https://github.com/legalize-dev) corpus — national legislation stored
 as **law-as-git**: one law per Markdown file, every reform a Git commit, each with an 8-field
