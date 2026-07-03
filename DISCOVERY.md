@@ -1,4 +1,4 @@
-# DISCOVERY - legalize-mcp (legalize-dev law-as-git corpus, 37 jurisdictions)
+# DISCOVERY - legalize-mcp (legalize-dev law-as-git corpus, 32 jurisdictions wired)
 
 Date: 2026-06-30. Source found via the LegalTech discovery sweep (`legaltech-scout` skill):
 `npx skills find legal` surfaced `aradotso/trending-skills@legalize-es-spanish-legislation`, behind
@@ -12,8 +12,14 @@ Git commit, with an 8-field ELI-style YAML frontmatter (Legalize Format Spec v0.
 `legalize-dev/legalize` repo `SPEC.md`). MIT-licensed. This is the cleanest possible substrate - no
 scraping, no SPA, no PDF: just raw Markdown with structured metadata and a real commit history.
 
-Unlike the single-country `*-eli-mcp` connectors, **one server serves all 37 jurisdictions**, because
+Unlike the single-country `*-eli-mcp` connectors, **one server serves 32 jurisdictions**, because
 the format is uniform across countries.
+
+Count note (verified 2026-07-03): the `legalize-dev` org has 37 repos, but 3 are non-country
+(`legalize` spec, `legalize-pipeline`, `legalize-sdks`), leaving 34 country repos. Two of those
+(`legalize-dk`, `legalize-ua`) are empty placeholders (0 and 1 `.md`), so this connector wires the
+**32** jurisdictions with real corpora. "37" was the raw repo count, not wired jurisdictions - do not
+publish it as a jurisdiction number.
 
 ## Coverage (probed live via GitHub API, 2026-06-30)
 

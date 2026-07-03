@@ -1,4 +1,4 @@
-"""FastMCP entry point - legalize-dev law-as-git corpus (37 jurisdictions).
+"""FastMCP entry point - legalize-dev law-as-git corpus (32 jurisdictions).
 
 Run:
 
@@ -31,7 +31,7 @@ from .client import LegalizeClient
 from .models import CountryInfo, LawMeta, LawText, Reform, SearchHit
 
 INSTRUCTIONS = """\
-This MCP server exposes the **legalize-dev** corpus: national legislation for 37 jurisdictions, \
+This MCP server exposes the **legalize-dev** corpus: national legislation for 32 jurisdictions, \
 stored as "law-as-git" - one law per Markdown file, every reform a Git commit \
 (github.com/legalize-dev, MIT-licensed). Each law carries an 8-field ELI-style frontmatter \
 (Legalize Format Spec v0.2). Every response carries the citation contract: the official \
