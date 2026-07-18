@@ -63,6 +63,25 @@ Claude Code (`.mcp.json`):
 }
 ```
 
+### Windows 11 ze Smart App Control
+
+Smart App Control blokuje niepodpisane pliki wykonywalne, a `uvx.exe`, `pip.exe`
+i generowany przy instalacji `legalize-mcp.exe` podpisane nie sa. `python.exe`
+z python.org jest podpisany przez Python Software Foundation, wiec uruchomienie
+przez modul omija blokade:
+
+```bash
+python -m pip install legalize-mcp
+python -m legalize_mcp
+```
+
+```json
+{ "mcpServers": { "legalize-mcp": { "command": "python", "args": ["-m", "legalize_mcp"] } } }
+```
+
+Nie wylaczaj Smart App Control, zeby to obejsc - wylaczenia nie da sie cofnac
+bez ponownej instalacji systemu.
+
 `GITHUB_TOKEN` (or `GH_TOKEN`) is **optional** — required only for `legalize_search_laws`, and it
 lifts the GitHub rate limit on `legalize_list_reforms`.
 
