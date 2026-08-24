@@ -40,6 +40,7 @@ Call `legalize_list_countries` for the live list (add `eu_only=true` to filter).
 | `legalize_get_meta` | ✅ | Frontmatter only (cheap citation check). |
 | `legalize_get_law` | ✅ | Full metadata + text by `law_id`; pass `sha=` for a historical version. |
 | `legalize_list_reforms` | ✅ | Reform timeline (commits) for a law; SHAs feed `legalize_get_law`. |
+| `legalize_coverage` | Declare what this connector covers, when each family was captured, and - explicitly - what it does NOT cover. Every gap carries a fallback. |
 
 `law_id` is the Markdown **filename stem** (e.g. `BOE-A-1978-31229` for the Spanish Constitution, a
 numeric id for Estonia). Get it from `legalize_search_laws` or an official citation — there is no
