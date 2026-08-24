@@ -46,8 +46,9 @@ stored as "law-as-git" - one law per Markdown file, every reform a Git commit \
    Returns `law_id` + path + a match snippet.
 3. `legalize_get_law(country, law_id)` - the law's metadata AND full text by id (the .md filename \
    stem, e.g. `BOE-A-1978-31229` for ES, a numeric id for EE). Keyless.
-4. `legalize_list_reforms(country, law_id)` - the timeline of reforms (commits) to that law.
-5. `legalize_get_law(country, law_id, sha=...)` - the historical state of a law at a given commit.
+4. `legalize_get_meta(country, law_id)` - the law's frontmatter only (title, dates, `source_url`),    without the full text. Prefer it over `legalize_get_law` when you only need to verify a    citation or check whether a law exists. Keyless.
+5. `legalize_list_reforms(country, law_id)` - the timeline of reforms (commits) to that law.
+6. `legalize_get_law(country, law_id, sha=...)` - the historical state of a law at a given commit.
 
 ## Hard constraints
 
@@ -337,7 +338,20 @@ async def legalize_coverage() -> Coverage:
     Returns:
         ``Coverage`` with families, an as-of note, and a non-empty list of known gaps.
     """
-    return build_coverage()
+    audit = _audit()
+    input_hash = hash_input({})
+
+    with timer() as t:
+        coverage = build_coverage()
+
+    audit.log(
+        tool="legalize_coverage",
+        input_hash=input_hash,
+        output_count_or_size=len(coverage.known_gaps),
+        duration_ms=t.duration_ms,
+        status="ok",
+    )
+    return coverage
 
 
 # ---------------------------------------------------------------------------
