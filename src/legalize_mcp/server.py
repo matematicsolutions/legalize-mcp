@@ -51,6 +51,7 @@ stored as "law-as-git" - one law per Markdown file, every reform a Git commit \
 
 ## Hard constraints
 
+- **Do not answer past the edge of this corpus** - when a search comes back empty, or the question touches material this connector does not carry, call `legalize_coverage` and relay what it says is missing. Absence here is not absence in the law.
 - **`law_id` is the filename stem, not a free-text title** - get it from `legalize_search_laws` or \
   an official citation. There is no fuzzy title lookup.
 - **Two citation URLs, both real** - `source_url` is the official government source; `github_url` is \
