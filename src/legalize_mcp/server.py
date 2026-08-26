@@ -34,7 +34,7 @@ from .coverage import Coverage, build_coverage
 INSTRUCTIONS = """\
 This MCP server exposes the **legalize-dev** corpus: national legislation for 32 jurisdictions, \
 stored as "law-as-git" - one law per Markdown file, every reform a Git commit \
-(github.com/legalize-dev, MIT-licensed). Each law carries an 8-field ELI-style frontmatter \
+(github.com/legalize-dev). Each law carries an 8-field ELI-style frontmatter \
 (Legalize Format Spec v0.2). Every response carries the citation contract: the official \
 `source_url` (from the law's frontmatter) plus a `github_url` (the verifiable copy we read).
 
@@ -53,6 +53,7 @@ stored as "law-as-git" - one law per Markdown file, every reform a Git commit \
 ## Hard constraints
 
 - **Do not answer past the edge of this corpus** - when a search comes back empty, or the question touches material this connector does not carry, call `legalize_coverage` and relay what it says is missing. Absence here is not absence in the law.
+- **Licence is per country, not MIT** - MIT covers legalize-dev's pipeline. Each country   repository inherits the terms of its official source: `legalize-es` follows the BOE reuse   conditions (citing the source is mandatory), `legalize-at` is CC BY 4.0, others differ.   Never tell a user the corpus is MIT; point them at the country repository's own terms.
 - **`law_id` is the filename stem, not a free-text title** - get it from `legalize_search_laws` or \
   an official citation. There is no fuzzy title lookup.
 - **Two citation URLs, both real** - `source_url` is the official government source; `github_url` is \

@@ -1,11 +1,16 @@
 # legalize-mcp
 
+> **Unofficial.** Not affiliated with, or endorsed by, the legalize-dev project.
+> An official legalize-dev MCP server is in development against the legalize.dev API;
+> this one reads the public git corpus instead.
+
+
 <!-- mcp-name: io.github.matematicsolutions/legalize-mcp -->
 
 **One MCP server, 32 jurisdictions (21 EU).** A read-only [Model Context Protocol](https://modelcontextprotocol.io)
 server over the [legalize-dev](https://github.com/legalize-dev) corpus — national legislation stored
 as **law-as-git**: one law per Markdown file, every reform a Git commit, each with an 8-field
-ELI-style frontmatter (Legalize Format Spec v0.2). MIT-licensed source corpus; this connector is
+ELI-style frontmatter (Legalize Format Spec v0.2). This connector is
 Apache-2.0.
 
 Built by [Matematic Solutions](https://matematic.co) as part of the `eu-legal-mcp` line. Unlike the
@@ -112,5 +117,14 @@ python -m venv .venv && .venv/Scripts/python -m pip install -e ".[dev]"
 ## Attribution
 
 Legislative data © the respective national authorities (see each law's `source`). Corpus
-normalisation by the [legalize-dev](https://github.com/legalize-dev) project under the MIT License.
+normalisation by the [legalize-dev](https://github.com/legalize-dev) project.
+
+**Licence of the corpus is per country, not MIT.** The MIT licence covers legalize-dev's
+pipeline and tooling. Each country repository carries terms inherited from its own official
+source - `legalize-es` follows the BOE reuse conditions, which make citing the source
+mandatory; `legalize-at` is CC BY 4.0; others differ. **Check the country repository before
+you rely on, quote or redistribute a text.** Treating the corpus as MIT would skip an
+attribution obligation you actually have.
+
+*Correction supplied by Enrique Lop (legalize-dev) in issue #18, 2026-08-24.*
 This connector does not redistribute the corpus; it reads it on demand.

@@ -1,7 +1,7 @@
 """Static registry of the legalize-dev country corpora.
 
 Each country's legal corpus lives in its own GitHub repo ``legalize-{code}`` under the
-``legalize-dev`` org (MIT-licensed), following the Legalize Format Spec v0.2: one law per
+``legalize-dev`` org, following the Legalize Format Spec v0.2: one law per
 ``.md`` file with an 8-field ELI-style YAML frontmatter, every reform a Git commit.
 
 This registry is the source of truth for which jurisdictions this connector serves and how

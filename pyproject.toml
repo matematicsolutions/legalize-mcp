@@ -4,8 +4,8 @@ build-backend = "hatchling.build"
 
 [project]
 name = "legalize-mcp"
-version = "0.2.3"
-description = "MCP server over the legalize-dev law-as-git corpus - national legislation for 32 jurisdictions (21 EU) as version-controlled Markdown with ELI-style citations and verifiable provenance."
+version = "0.2.4"
+description = "Unofficial MCP server (not affiliated with legalize-dev) over the legalize-dev law-as-git corpus - national legislation for 32 jurisdictions (21 EU) as version-controlled Markdown with ELI-style citations and verifiable provenance."
 readme = "README.md"
 license = { text = "Apache-2.0" }
 requires-python = ">=3.11"
