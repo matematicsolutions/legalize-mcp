@@ -26,7 +26,7 @@ Every response carries the **citation contract** the rest of the line uses:
 - `github_url` — the verifiable legalize-dev copy actually read.
 - `human_readable_citation` — `"<title> (<identifier>)"`.
 
-It is **RODO/GDPR-safe and self-hostable**: nothing leaves the user's machine except read-only GETs
+It is **self-hostable, with a narrow data path**: nothing leaves the user's machine except read-only GETs
 to GitHub.
 
 ## Jurisdictions
@@ -99,7 +99,7 @@ lifts the GitHub rate limit on `legalize_list_reforms`.
 | Env var | Default | Purpose |
 | --- | --- | --- |
 | `GITHUB_TOKEN` / `GH_TOKEN` | — | Enables code search; lifts rate limits. |
-| `LEGALIZE_AUDIT_DIR` | `~/.matematic/audit` | JSONL audit log location (AI Act art. 12). |
+| `LEGALIZE_AUDIT_DIR` | `~/.matematic/audit` | JSONL audit log location (record-keeping). |
 
 ## Governance
 
