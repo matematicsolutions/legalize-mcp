@@ -1,0 +1,695 @@
+{
+  "package_version": "0.2.4",
+  "tools": {
+    "legalize_coverage": {
+      "descriptor": {
+        "annotations": {
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": true,
+          "readOnlyHint": true
+        },
+        "description": "Declare what this connector covers, how it is sourced, and what it does NOT cover.\n\nCall this before telling a user that the law \"does not contain\" something, and whenever\na search comes back empty: the absence may be a gap in this connector rather than in the\nlaw. Every gap carries a fallback saying where to look instead.\n\nReturns:\n    ``Coverage`` with families, an as-of note, and a non-empty list of known gaps.",
+        "inputSchema": {
+          "additionalProperties": false,
+          "properties": {},
+          "type": "object"
+        },
+        "meta": {
+          "fastmcp": {
+            "tags": []
+          }
+        },
+        "name": "legalize_coverage",
+        "outputSchema": {
+          "additionalProperties": true,
+          "description": "What this connector covers, how it is sourced, and what it does not cover.",
+          "properties": {
+            "as_of_note": {
+              "description": "States what the dates mean, and what they do not promise.",
+              "type": "string"
+            },
+            "families": {
+              "items": {
+                "additionalProperties": true,
+                "description": "One data family this connector exposes.",
+                "properties": {
+                  "captured_at": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null,
+                    "description": "Date this family was last captured (ISO). None when queried live."
+                  },
+                  "live": {
+                    "default": true,
+                    "description": "True when queried live instead of from a snapshot.",
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "description": "Data family, e.g. 'Federal legislation'.",
+                    "type": "string"
+                  },
+                  "source": {
+                    "description": "Official source the data comes from.",
+                    "type": "string"
+                  },
+                  "tool": {
+                    "description": "Tool or tools that reach this family.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "name",
+                  "tool",
+                  "source"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "known_gaps": {
+              "description": "Never empty. An empty list would mean 'not checked', not 'no gaps'.",
+              "items": {
+                "additionalProperties": true,
+                "description": "A known, named hole in this connector's coverage - plus the way around it.",
+                "properties": {
+                  "fallback": {
+                    "description": "Where to go instead.",
+                    "type": "string"
+                  },
+                  "family": {
+                    "description": "Which family the gap belongs to.",
+                    "type": "string"
+                  },
+                  "id": {
+                    "description": "Stable gap identifier.",
+                    "type": "string"
+                  },
+                  "missing": {
+                    "description": "What is NOT available through this connector.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "id",
+                  "family",
+                  "missing",
+                  "fallback"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            },
+            "status": {
+              "default": "ok",
+              "enum": [
+                "ok",
+                "degraded",
+                "failed"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "as_of_note"
+          ],
+          "type": "object"
+        }
+      },
+      "sha256": "15b9ee846449c3ff50dfc4106ff51d937689d78ee37bf598a01e9d500ee5ecaa"
+    },
+    "legalize_get_law": {
+      "descriptor": {
+        "annotations": {
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": true,
+          "readOnlyHint": true
+        },
+        "description": "Fetch a law's metadata and full text by id (optionally at a historical commit).",
+        "inputSchema": {
+          "additionalProperties": false,
+          "properties": {
+            "country": {
+              "description": "ISO-3166 alpha-2 code (e.g. ``\"es\"``).",
+              "type": "string"
+            },
+            "law_id": {
+              "description": "the filename stem (e.g. ``\"BOE-A-1978-31229\"``).",
+              "type": "string"
+            },
+            "sha": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "optional commit SHA for a historical version (from ``legalize_list_reforms``)."
+            }
+          },
+          "required": [
+            "country",
+            "law_id"
+          ],
+          "type": "object"
+        },
+        "meta": {
+          "fastmcp": {
+            "tags": []
+          }
+        },
+        "name": "legalize_get_law",
+        "outputSchema": {
+          "description": "A law's metadata plus its full Markdown body.",
+          "properties": {
+            "byte_size": {
+              "default": 0,
+              "type": "integer"
+            },
+            "content": {
+              "description": "Full law text (Markdown, frontmatter stripped).",
+              "type": "string"
+            },
+            "country": {
+              "type": "string"
+            },
+            "extra": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "description": "Country-specific frontmatter fields.",
+              "type": "object"
+            },
+            "github_url": {
+              "description": "Raw provenance URL on github.com/legalize-dev.",
+              "type": "string"
+            },
+            "human_readable_citation": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "last_updated": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "law_id": {
+              "description": "Official identifier (the .md filename stem).",
+              "type": "string"
+            },
+            "publication_date": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "rank": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Country-specific legal text type."
+            },
+            "sha": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Git commit SHA if a historical version was requested."
+            },
+            "source_url": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Official source URL (frontmatter `source`)."
+            },
+            "status": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "in_force | repealed | ..."
+            },
+            "title": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            }
+          },
+          "required": [
+            "country",
+            "law_id",
+            "github_url",
+            "content"
+          ],
+          "type": "object"
+        }
+      },
+      "sha256": "427ae2e05e0ae9519969a4ba364aef1c6ca0658c86c148b99be23e412c7d38a3"
+    },
+    "legalize_get_meta": {
+      "descriptor": {
+        "annotations": {
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": true,
+          "readOnlyHint": true
+        },
+        "description": "Fetch only a law's frontmatter metadata (no body) - cheap for citation checks.",
+        "inputSchema": {
+          "additionalProperties": false,
+          "properties": {
+            "country": {
+              "description": "ISO-3166 alpha-2 code.",
+              "type": "string"
+            },
+            "law_id": {
+              "description": "the filename stem.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "country",
+            "law_id"
+          ],
+          "type": "object"
+        },
+        "meta": {
+          "fastmcp": {
+            "tags": []
+          }
+        },
+        "name": "legalize_get_meta",
+        "outputSchema": {
+          "description": "Frontmatter metadata for a single law (Legalize Format Spec v0.2 + extensions).",
+          "properties": {
+            "country": {
+              "type": "string"
+            },
+            "extra": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "description": "Country-specific frontmatter fields.",
+              "type": "object"
+            },
+            "github_url": {
+              "description": "Raw provenance URL on github.com/legalize-dev.",
+              "type": "string"
+            },
+            "human_readable_citation": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "last_updated": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "law_id": {
+              "description": "Official identifier (the .md filename stem).",
+              "type": "string"
+            },
+            "publication_date": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            },
+            "rank": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Country-specific legal text type."
+            },
+            "source_url": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "Official source URL (frontmatter `source`)."
+            },
+            "status": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "description": "in_force | repealed | ..."
+            },
+            "title": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null
+            }
+          },
+          "required": [
+            "country",
+            "law_id",
+            "github_url"
+          ],
+          "type": "object"
+        }
+      },
+      "sha256": "d99c70adc7262aedb53806ea20550a6df012419afdc2823560618b1c0f6e7b11"
+    },
+    "legalize_list_countries": {
+      "descriptor": {
+        "annotations": {
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": true,
+          "readOnlyHint": true
+        },
+        "description": "List the jurisdictions available in the legalize-dev corpus.",
+        "inputSchema": {
+          "additionalProperties": false,
+          "properties": {
+            "eu_only": {
+              "default": false,
+              "description": "if true, restrict to EU member states.",
+              "type": "boolean"
+            }
+          },
+          "type": "object"
+        },
+        "meta": {
+          "fastmcp": {
+            "tags": []
+          }
+        },
+        "name": "legalize_list_countries",
+        "outputSchema": {
+          "properties": {
+            "result": {
+              "items": {
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  },
+                  "eu": {
+                    "type": "boolean"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "repo": {
+                    "description": "GitHub owner/repo slug for this jurisdiction's corpus.",
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "code",
+                  "name",
+                  "eu",
+                  "repo"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "result"
+          ],
+          "type": "object",
+          "x-fastmcp-wrap-result": true
+        }
+      },
+      "sha256": "abe2cc481ffdf10a33f24e6f67c28341edb20f55d228ea915e00c2b12d00fa28"
+    },
+    "legalize_list_reforms": {
+      "descriptor": {
+        "annotations": {
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": true,
+          "readOnlyHint": true
+        },
+        "description": "List the reform history (commits) of a law - the legislative timeline.",
+        "inputSchema": {
+          "additionalProperties": false,
+          "properties": {
+            "country": {
+              "description": "ISO-3166 alpha-2 code.",
+              "type": "string"
+            },
+            "law_id": {
+              "description": "the filename stem.",
+              "type": "string"
+            },
+            "limit": {
+              "default": 20,
+              "description": "max reforms, newest first (1-100, default 20).",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "country",
+            "law_id"
+          ],
+          "type": "object"
+        },
+        "meta": {
+          "fastmcp": {
+            "tags": []
+          }
+        },
+        "name": "legalize_list_reforms",
+        "outputSchema": {
+          "properties": {
+            "result": {
+              "items": {
+                "description": "One commit touching a law file - a single legislative reform in its history.",
+                "properties": {
+                  "date": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
+                  },
+                  "github_url": {
+                    "type": "string"
+                  },
+                  "message": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
+                  },
+                  "sha": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "sha",
+                  "github_url"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "result"
+          ],
+          "type": "object",
+          "x-fastmcp-wrap-result": true
+        }
+      },
+      "sha256": "18751c6b50b04bf8caf14fc32b4f9dc493d0b8de982af7243e787581f3b0ef25"
+    },
+    "legalize_search_laws": {
+      "descriptor": {
+        "annotations": {
+          "destructiveHint": false,
+          "idempotentHint": true,
+          "openWorldHint": true,
+          "readOnlyHint": true
+        },
+        "description": "Search a jurisdiction's laws by keyword (GitHub code search; requires a token).",
+        "inputSchema": {
+          "additionalProperties": false,
+          "properties": {
+            "country": {
+              "description": "ISO-3166 alpha-2 code (e.g. ``\"ee\"``, ``\"es\"``).",
+              "type": "string"
+            },
+            "limit": {
+              "default": 10,
+              "description": "max hits (1-100, default 10).",
+              "type": "integer"
+            },
+            "query": {
+              "description": "keyword(s) to find inside the law texts.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "country",
+            "query"
+          ],
+          "type": "object"
+        },
+        "meta": {
+          "fastmcp": {
+            "tags": []
+          }
+        },
+        "name": "legalize_search_laws",
+        "outputSchema": {
+          "properties": {
+            "result": {
+              "items": {
+                "properties": {
+                  "country": {
+                    "type": "string"
+                  },
+                  "github_url": {
+                    "type": "string"
+                  },
+                  "law_id": {
+                    "type": "string"
+                  },
+                  "path": {
+                    "type": "string"
+                  },
+                  "snippet": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "default": null
+                  }
+                },
+                "required": [
+                  "country",
+                  "law_id",
+                  "path",
+                  "github_url"
+                ],
+                "type": "object"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "result"
+          ],
+          "type": "object",
+          "x-fastmcp-wrap-result": true
+        }
+      },
+      "sha256": "b84b2aeefef0ab905e9285a55a7fa9739a9cfd473d75833827d1f7853d602403"
+    }
+  },
+  "toolset_sha256": "5441bbaa774e26af4e551e50b808cfff5d1e6306b2e783688b68c4b4a6a2c9f6"
+}
